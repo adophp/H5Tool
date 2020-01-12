@@ -1,21 +1,11 @@
-# engine
+# H5
 
-> H5 Engine
+> H5页面制作,微信H5页面
 
-## Build Setup
+VUE
 
-``` bash
-# install dependencies
-npm install
+element-ui
 
-# serve with hot reload at localhost:8080
-npm run dev
+vue-draggable-resizable
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+animate
