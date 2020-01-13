@@ -63,5 +63,10 @@ export default {
       var effect=allBoxes[i].attributes["swiper-animate-effect"].value;
       allBoxes[i].attributes["swiper-animate-effect"]&&(effect,allBoxes[i].className=allBoxes[i].className.replace(effect," "))
     }
+  },
+  //判断是否移动端
+  isMobile: function(){
+    var flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
+    return flag;
   }
 }

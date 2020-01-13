@@ -1,4 +1,4 @@
 export default {
-  upload: 'https://xxxxxxx.com/upload',//请修改上传地址
-  contactEmail: 'xxxxx@adophper.com'
+  upload: 'https://api.xsxuexue.com/api/index/upload',
+  contactEmail: 'hello@adophper.com'
 }

@@ -5,7 +5,9 @@
         <div>
           <div class="workstute"></div>
           <div class="worktitle"><input type="text" v-model="projectName" placeholder="请输入项目名称" /></div>
-          <a title="读图网" class="usercenter"></a>
+          <a href="https://github.com/adophper/H5Tool" target="_blank" title="Git开源地址" class="usercenter">
+            <i class="iconfont icon-git"></i>
+          </a>
           <a class="publish cursor" @click="publish"><i class="iconfont icon-fabu2"></i><span>导出</span></a>
           <div class="editbtn">
             <a class="preview cursor" @click="preview"><i class="iconfont icon-yulan1"></i><span>预览</span></a>
@@ -14,7 +16,7 @@
         </div>
       </div>
 
-      <div class="funcwrap" :class="excludeClassName">
+      <div class="funcwrap" :class="[excludeClassName, subfuncState?'closed':'']">
         <words v-if="func=='words'" @addMethods="addElement"></words>
         <materials v-if="func=='materials'" @addMethods="addElement"></materials>
         <pic v-if="func=='pictures'" @addMethods="addElement" :npage.sync="npage" :init-file.sync="fileList" @setFileList="setFileList"></pic>
@@ -23,21 +25,23 @@
         <videos v-if="func=='videos'" :npage.sync="npage" @setVideoList="setVideoList" @addMethods="addElement" :init-video-list="videoList"></videos>
         <actions v-if="func=='actions'" @addMethods="addElement"></actions>
       </div>
-      <div class="rightnav" :class="excludeClassName">
+      <div class="rightnav" :class="[excludeClassName, subfuncState?'closed':'']">
+        <a class="closebar" @click="subfuncState=!subfuncState"></a>
         <div class="navwrap">
-          <a class="words" :class="{'cursor active': func=='words'}" @click="func='words'"><i class="iconfont icon-xingzhuang-wenzilan"></i> <p>文字</p></a>
-          <!--<a class="materials" :class="{'cursor active': func=='materials'}" @click="func='materials'"><i class="iconfont icon-xingzhuang"></i> <p>形状</p></a>-->
-          <a class="pictures" :class="{'cursor active': func=='pictures'}" @click="func='pictures'"><i class="iconfont icon-tupian"></i> <p>图片</p></a>
-          <a class="backgrounds" :class="{'cursor active': func=='backgrounds'}" @click="func='backgrounds'" :exclude-class-name="excludeClassName"><i class="iconfont icon-beijing"></i> <p>背景</p></a>
-          <a class="musics" :class="{'cursor active': func=='musics'}" @click="func='musics'"><i class="iconfont icon-music"></i> <p>音乐</p></a>
-          <a class="videos" :class="{'cursor active': func=='videos'}" @click="func='videos'"><i class="iconfont icon-shipin1"></i> <p>视频</p></a>
-          <!--<a class="forms" :class="{'cursor active': func=='forms'}" @click="func='forms'"><i class="iconfont icon-zidingyibiaodan"></i> <p>表单</p></a>-->
-          <a class="actions" :class="{'cursor active': func=='actions'}" @click="func='actions'"><i class="iconfont icon-video"></i> <p>互动</p></a>
+          <a class="words" :class="{'cursor active': func=='words'}" @click="navwrap('words')"><i class="iconfont icon-xingzhuang-wenzilan"></i> <p>文字</p></a>
+          <!--<a class="materials" :class="{'cursor active': func=='materials'}" @click="navwrap('materials')"><i class="iconfont icon-xingzhuang"></i> <p>形状</p></a>-->
+          <a class="pictures" :class="{'cursor active': func=='pictures'}" @click="navwrap('pictures')"><i class="iconfont icon-tupian"></i> <p>图片</p></a>
+          <a class="backgrounds" :class="{'cursor active': func=='backgrounds'}" @click="navwrap('backgrounds')" :exclude-class-name="excludeClassName"><i class="iconfont icon-beijing"></i> <p>背景</p></a>
+          <a class="musics" :class="{'cursor active': func=='musics'}" @click="navwrap('musics')"><i class="iconfont icon-music"></i> <p>音乐</p></a>
+          <a class="videos" :class="{'cursor active': func=='videos'}" @click="navwrap('videos')"><i class="iconfont icon-shipin1"></i> <p>视频</p></a>
+          <!--<a class="forms" :class="{'cursor active': func=='forms'}" @click="navwrap('forms')"><i class="iconfont icon-zidingyibiaodan"></i> <p>表单</p></a>-->
+          <a class="actions" :class="{'cursor active': func=='actions'}" @click="navwrap('actions')"><i class="iconfont icon-video"></i> <p>互动</p></a>
         </div>
       </div>
       <pagelist :npage.sync="npage" :page-list.sync="pageList" @addPage="addPage" @setPage="setPage" @copyPage="copyPage" @deletePage="deletePage" @updatePage="updatePage"></pagelist>
-      <div class="subfuncwrap" :class="excludeClassName" v-if="draggingId" @click="subfuncwrap()">
-        <div class="functitle">
+
+      <div class="subfuncwrap" v-if="draggingId">
+        <div class="functitle" :class="excludeClassName">
           <a :class="{'active':subfuncname==='elewrap'}" @click="subfuncname='elewrap'">
             <span v-if="draggingElement.type=='text'">文本</span>
             <span v-else-if="draggingElement.type=='img'">图片</span>
@@ -48,20 +52,22 @@
           <a :class="{'active':subfuncname==='animwrap'}" @click="subfuncname='animwrap'">动画</a>
           <a :class="{'active':subfuncname==='layerwrap'}" @click="subfuncname='layerwrap'">图层</a>
         </div>
-        <div v-if="subfuncname==='elewrap'">
+        <div :class="excludeClassName" v-if="subfuncname==='elewrap'">
           <subwords v-if="draggingElement.type=='text'" :id="draggingId" :init-ele="draggingElement" @setElementNode="setElementNode(arguments)" :exclude-class-name="excludeClassName"></subwords>
           <subpic v-else-if="draggingElement.type=='img'" :id="draggingId" :init-ele="draggingElement" @setElementNode="setElementNode(arguments)" :exclude-class-name="excludeClassName"></subpic>
           <subvideo v-else-if="draggingElement.type=='video'" :id="draggingId" :init-ele="draggingElement" @setElementNode="setElementNode(arguments)" :exclude-class-name="excludeClassName"></subvideo>
           <subtele v-else-if="draggingElement.type=='tele'" :id="draggingId" :init-ele="draggingElement" @setElementNode="setElementNode(arguments)" :exclude-class-name="excludeClassName"></subtele>
           <sublink v-else-if="draggingElement.type=='link'" :id="draggingId" :init-ele="draggingElement" @setElementNode="setElementNode(arguments)" :exclude-class-name="excludeClassName"></sublink>
         </div>
-        <div v-else-if="subfuncname==='animwrap'">
+        <div :class="excludeClassName" v-else-if="subfuncname==='animwrap'">
           <animwrap :id="draggingId" :init-ele="draggingElement" @setElementNode="setElementNode(arguments)" @previewAnimation="previewAnimation" :exclude-class-name="excludeClassName"></animwrap>
         </div>
-        <div v-else-if="subfuncname==='layerwrap'">
+        <div :class="excludeClassName" v-else-if="subfuncname==='layerwrap'">
           <layerwrap :id="draggingId" :init-list="pageList[npage]['layer']" @deleteElement="deleteElement" @setElementField="setElementField(arguments)" @selectActive="selectActive"></layerwrap>
         </div>
+        <a class="closebar">关闭</a>
       </div>
+
       <div class="workarea editor" @contextmenu.prevent="mainContextMenu">
         <div class="e-stage-mask fixed left" style="left: 0px; width: calc(50% - 160px); height: 100%;"></div>
         <div class="e-stage-mask fixed right" style="right: 0px; width: calc(50% - 160px); height: 100%; z-index: 10;"></div>
@@ -178,14 +184,14 @@
       </div>
 
       <div class="preview-dialog" v-if="dialogVisible">
-        <el-dialog :visible.sync="dialogVisible" width="30%" custom-class="previewel">
+        <el-dialog :visible.sync="dialogVisible" :width="dialogWidth" custom-class="previewel">
           <p style="text-align: center; margin-bottom: 10px;">如须帮助请联系：{{config.contactEmail}}</p>
           <preview :music="bgMusic" :page-list="pageList" :preview-state="previewState"></preview>
         </el-dialog>
       </div>
 
       <div class="publish-dialog" v-if="publishState">
-        <el-dialog :visible.sync="publishState" width="30%" custom-class="previewel">
+        <el-dialog :visible.sync="publishState" :width="dialogWidth" custom-class="previewel">
           <p style="margin-bottom: 10px; line-height: 1.4;">请自行将HTML内容复制保存并上传至自有服务器，本站不提供免费保存文件服务。如须帮助请联系：{{config.contactEmail}}</p>
           <el-input type="textarea" :rows="15" v-model="publishContent"></el-input>
         </el-dialog>
@@ -219,6 +225,7 @@ export default {
       projectName: '项目名称',
       grid: false,
       func: 'words',
+      subfuncState: this.utils.isMobile()?true:false,
       sync: false,
       draggingId: null,
       prevOffsetX: 0,
@@ -250,7 +257,8 @@ export default {
       publishContent: '',
       rightClickState: false,
       actionId: null,
-      copyId: null
+      copyId: null,
+      dialogWidth: this.utils.isMobile()?'90%':'40%'
     }
   },
   components: {
@@ -307,6 +315,9 @@ export default {
     this.pageList = [JSON.parse(old)];
   },
   methods: {
+    navwrap(func){
+      this.func = func;
+    },
     dragging(id, left, top) {
       this.draggingId = id;
 
@@ -543,9 +554,9 @@ export default {
       }
       this.pageList[this.npage]['layer'].push(element)
       // this.setControlActive(element.id);//选中
-    },
-    subfuncwrap(){
-      return false;
+      if (this.utils.isMobile()) {
+        this.subfuncState = true;
+      }
     },
     // 手动设置刚才添加的控件为选中状态
     setControlActive(id) {
@@ -837,7 +848,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  min-width: 1200px;
+  /*min-width: 1200px;*/
   height: 50px;
   background: #0f0f0f;
 }
@@ -945,12 +956,11 @@ export default {
   margin: 8px 160px 0 0;
   border-radius: 50%;
   overflow: hidden;
-  position: relative
+  position: relative;
+  color: #fff;
 }
-.topnav .usercenter img {
-  display: block;
-  width: 100%;
-  height: 100%
+.topnav .usercenter i {
+  font-size: 34px;
 }
 .topnav .publish {
   float: right;
@@ -980,6 +990,9 @@ export default {
   background: #404040;
   z-index: 11;
 }
+.funcwrap.closed {
+  display: none;
+}
 .rightnav {
   position: fixed;
   top: 50px;
@@ -988,6 +1001,23 @@ export default {
   width: 60px;
   background: #333;
   z-index: 11;
+}
+.rightnav.closed {
+  left: -60px
+}
+.rightnav .closebar {
+  position: absolute;
+  display: none;
+  width: 16px;
+  height: 93px;
+  top: 50%;
+  right: -296px;
+  margin-top: -46px;
+  background: url(../assets/images/pageleft.png) no-repeat 50%;
+}
+.rightnav.closed .closebar {
+  right: -16px;
+  background: url(../assets/images/pageright.png) no-repeat 50%
 }
 .cursor {
   cursor: pointer;
@@ -1026,7 +1056,20 @@ export default {
   z-index: 11;
   background: #404040
 }
-
+.subfuncwrap .closebar {
+  position: absolute;
+  display: none;
+  width: 60px;
+  height: 30px;
+  background: #1bceb3;
+  color: #fff;
+  left: -60px;
+  top: 100%;
+  margin-top: -30px;
+  line-height: 30px;
+  text-align: center;
+  overflow: hidden;
+}
 .subfuncwrap .functitle {
   overflow: hidden
 }
@@ -1325,5 +1368,23 @@ a, a:hover {
   height: 600px;
   border: 1px solid #ccc;
   box-shadow: inset 0 0 4px #ccc;
+}
+@media (max-width: 767.98px) {
+  .topnav .logo {
+    margin: 0 10px;
+    width: 44px;
+  }
+  .topnav .worktitle {
+    width: 100px;
+  }
+  .topnav .worktitle input {
+    width: 100px;
+  }
+  .topnav .workstute,.topnav .usercenter {
+    display: none;
+  }
+  .rightnav .closebar,.subfuncwrap .closebar {
+    display: block;
+  }
 }
 </style>

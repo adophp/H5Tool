@@ -1,5 +1,6 @@
 <template>
-  <div class="pagelistwrap">
+  <div class="pagelistwrap" :class="{'closed': pageState}">
+    <a class="closebar" @click="pageState=!pageState"></a>
     <div class="pagelist">
       <div class="objecttype">
         <a class="page active">页面</a>
@@ -88,7 +89,7 @@ export default {
   },
   data() {
     return {
-
+      pageState: this.utils.isMobile()?true:false
     }
   },
   methods: {
@@ -146,7 +147,6 @@ export default {
 </script>
 
 <style scoped>
-
   .pagelistwrap {
     position: fixed;
     top: 50px;
@@ -156,20 +156,19 @@ export default {
     background: #404040;
     z-index: 11
   }
-
   .pagelistwrap.closed {
-    left: -215px
+    right: -215px
   }
-
   .pagelistwrap .closebar {
     position: absolute;
-    display: block;
+    display: none;
     width: 16px;
     height: 93px;
     top: 50%;
-    right: -16px;
+    left: -16px;
     margin-top: -46px;
-    background: url(../assets/images/pageleft.png) no-repeat 50%
+    transform: rotateY(180deg);
+    background: url(../assets/images/pageleft.png) no-repeat 50%;
   }
 
   .pagelistwrap.closed .closebar {
@@ -295,5 +294,9 @@ export default {
   .addpagebtn:hover {
     color: #1bceb3
   }
-
+@media (max-width: 767.98px) {
+  .pagelistwrap .closebar{
+    display: block;
+  }
+}
 </style>
