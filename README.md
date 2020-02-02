@@ -10,10 +10,10 @@
 # 安装依赖
 npm install
 
-# serve with hot reload at localhost:8080
+# 运行开发环境 localhost:8080
 npm run dev
 
-# 打包成html文件
+# 打包成html文件,生成文件在目录dist文件夹下面
 npm run build
 ```
 
@@ -23,6 +23,7 @@ npm run build
 
 联系邮箱：contactEmail
 
+----------------------
 
 
 主要使用:
