@@ -4,6 +4,25 @@
 
 使用VUE框架
 
+安装方法：
+
+```bash
+# 安装依赖
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# 打包成html文件
+npm run build
+```
+
+修改配置文件src/config/index.js：
+
+上传路径：upload
+
+联系邮箱：contactEmail
+
 主要使用:
 
 element-ui
