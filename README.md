@@ -4,7 +4,7 @@
 
 使用VUE框架
 
-安装方法：
+安装方法进入下文件夹下运行：
 
 ```bash
 # 安装依赖
@@ -22,6 +22,8 @@ npm run build
 上传路径：upload
 
 联系邮箱：contactEmail
+
+
 
 主要使用:
 
