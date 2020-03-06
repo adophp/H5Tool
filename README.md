@@ -34,7 +34,7 @@ vue-draggable-resizable
 
 animate
 
-![Image](./20200112-225232%402x.png)
+![Image](https://api.xsxuexue.com/uploads/home/article/5e625042234cd.png)
 
 特别感谢此博主：
 
