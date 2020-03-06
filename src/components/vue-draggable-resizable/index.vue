@@ -483,7 +483,7 @@ export default {
         },
         eparent(path){
           var _that = this;
-          // console.log(path)
+          console.log(path)
           if (!path || !this.excludeClassName) return false;
           for (var i in path) {
             if (path[i].className && path[i].className.includes(_that.excludeClassName)) {
@@ -495,13 +495,12 @@ export default {
         deselect(e) {
             const target = e.target || e.srcElement;
             const regex = new RegExp(this.className + '-([trmbl]{2})', '');
-            // console.log(target);
-            // console.log(target.className);
+            const path = e.path || (e.composedPath && e.composedPath());
             if (
                 !this.$el.contains(target) &&
                 !regex.test(target.className) &&
                 (this.excludeClassName &&
-                  !this.eparent(e.path))
+                  !this.eparent(path))
             ) {
                 if (this.enabled && !this.preventDeactivation) {
                     // console.log(target);
