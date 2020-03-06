@@ -49,11 +49,13 @@ animate
 图片上传,使用thinkphp5的上传类
 
 ```php
+// 文件上传接口
 public function upload(){
-  $upload_file = BASE_UPLOAD_PATH . DS . ATTACH_ARTICLE . DS;
+  $upload_file = BASE_UPLOAD_PATH . DS . ATTACH_ARTICLE . DS;// 文件上传路径
   $file_object = request()->file('fileupload');
   $errMsg = '';
   if ($file_object) {
+    // ALLOW_IMG_EXT 上传文件后缀名
     $info = $file_object->rule('uniqid')->validate(['ext' => ALLOW_IMG_EXT.',mp3,mp4'])->move($upload_file);
     if ($info) {
       $file_name = $info->getFilename();
