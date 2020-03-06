@@ -34,7 +34,7 @@ vue-draggable-resizable
 
 animate
 
-![Image](20200112-225232%402x.png)
+![Image](./20200112-225232%402x.png)
 
 特别感谢此博主：
 
